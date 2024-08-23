@@ -1,0 +1,312 @@
+h1 {
+  font-weight: bold;
+  margin: 0;
+}
+
+h2 {
+  text-align: center;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.img {
+  width: 100px;
+  aspect-ratio: 1;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
+
+span {
+  font-size: 12px;
+}
+
+a {
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px 0;
+}
+
+button {
+  border-radius: 20px;
+  /* border: 1px solid #FF4B2B;
+	background-color: #FF4B2B; */
+  background: linear-gradient(45deg, #000000, #11111e, #060606);
+  border: 1px solid #060606;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus {
+  outline: none;
+}
+
+button.ghost {
+  /* background-color: transparent; */
+  border-color: #ffffff;
+  background: #262529;
+}
+
+form {
+  background-color: #262529;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+}
+
+form h1 {
+  font-size: 16px;
+}
+
+form .url-username-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 10px;
+}
+form .url-username-logo img {
+  width: 25px;
+  aspect-ratio: 1;
+}
+
+input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+
+  border-radius: 4px;
+}
+
+.container input:is(:focus, :hover) {
+  border: none;
+  outline: none;
+}
+
+.container {
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  background-color: #262529;
+  position: relative;
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
+  height: 500px;
+
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.save-pass-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.container.right-panel-active .save-pass-container {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.get-pass-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.right-panel-active .get-pass-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@keyframes show {
+  0%,
+  49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.overlay {
+  background: linear-gradient(45deg, #000000, #11111e, #060606);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+  transform: translateX(20%);
+}
+
+.username-container,
+.password-wrapper,
+.password-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 4px;
+  background: #eee;
+  padding-right: 4px;
+  margin: 8px 0;
+}
+
+.password-container :is(input) {
+  flex: 1;
+  border-radius: 0;
+  background-color: transparent;
+  margin: 0;
+  padding: auto 0;
+}
+
+.password-container .show-hide-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.password-wrapper,
+.username-container {
+  background: transparent;
+  border-radius: none;
+  padding-right: 0;
+  gap: 10px;
+}
+
+.clipboard-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+form svg {
+  stroke: black;
+}
+
+@media (prefers-color-scheme: light) {
+  .container {
+    background-color: #fff;
+  }
+
+  a {
+    color: #333;
+  }
+
+  form {
+    background-color: #ffffff;
+    color: #000;
+  }
+
+  .overlay {
+    background: #ff416c;
+    background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+  }
+
+  button.ghost {
+    background-color: transparent;
+  }
+
+  button {
+    border: 1px solid #ff4b2b;
+    background: #ff4b2b;
+  }
+}
