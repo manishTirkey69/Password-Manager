@@ -1,6 +1,6 @@
 {
   "name": "password-manager",
-  "productName": "password-manager",
+  "productName": "password manager",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "app.js",
@@ -33,6 +33,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^10.1.0",
     "mongoose": "^8.5.2",
     "sqlite3": "^5.1.7"
   }
