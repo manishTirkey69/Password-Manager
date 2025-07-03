@@ -3,6 +3,8 @@ window.addEventListener("load", () => {
   const clipboardButton = document.getElementById("clipboard-slide");
   const saveButton = document.getElementById("save-slide");
   const container = document.getElementById("container");
+  const searchInput = document.getElementById("search-input");
+  const list_container = document.getElementById("list-container");
 
   clipboardButton.addEventListener("click", () => {
     container.classList.add("right-panel-active");
@@ -10,6 +12,12 @@ window.addEventListener("load", () => {
 
   saveButton.addEventListener("click", () => {
     container.classList.remove("right-panel-active");
+
+    // reset input value
+    searchInput.value = "";
+
+    // reset list_container
+    list_container.innerHTML = "";
   });
 });
 

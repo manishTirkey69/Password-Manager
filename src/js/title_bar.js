@@ -1,3 +1,8 @@
+// global variable
+let currentSelectedItem = null;
+let currentIndex = 0;
+
+
 window.addEventListener("load", () => {
   const minimize = document.getElementById("win-minimize");
   const restore = document.getElementById("win-restore");
@@ -86,6 +91,43 @@ window_things.on("win:load", () => {
   });
 });
 
+
+// local shortcut keys 
+
+window.addEventListener('contextmenu', (event) => {
+  event.preventDefault(); // Disables right-click menu
+  event.stopPropagation();
+});
+
+window.addEventListener("keydown", (event) => {
+
+  if (event.ctrlKey && event.key.toLowerCase() === "p") {
+    event.preventDefault(); // prevent default browser behavior
+    event.stopPropagation();
+
+    // open search modal
+    const searchModal = document.getElementById("search-modal");
+    searchModal.classList.remove("search-hide");
+    searchModal.classList.add("search-show");
+
+    document.getElementById("search-input").focus();
+  }
+});
+
+
+window.addEventListener("keydown", (event) => {
+
+  if (event.key.toLowerCase() === "escape" ) {
+    event.preventDefault(); // prevent default browser behavior
+    event.stopPropagation();
+
+    // close search modal
+    const searchModal = document.getElementById("search-modal");
+    searchModal.classList.remove("search-show");
+    searchModal.classList.add("search-hide");
+  }
+});
+
 // search input
 window.addEventListener("load", () => {
   const searchInput = document.getElementById("search-input");
@@ -100,25 +142,27 @@ window.addEventListener("load", () => {
   searchInput.addEventListener("input", (event) => {
     list_container.innerHTML = ``;
 
+    let list_items = []
+
     API.call("API:search", event.target.value.trim()).then((data) => {
-      data.map((username) => {
+
+      data.map((Secret, index) => {
         const list_item = document.createElement("li");
 
         // list click listener
-        list_item.addEventListener("click", (event) => {
-          const currentList = event.currentTarget;
+        list_item.addEventListener("click", function(event){
           const container = document.getElementById("container");
 
           // close the search modal after click on list item
           searchModal.classList.remove("search-show");
           searchModal.classList.add("search-hide");
 
-          searchInput.value = "";
+          // searchInput.value = "";
           container.classList.add("right-panel-active");
 
           // set the value into username/password input
 
-          API.call("API:searchPassword", currentList.id).then((res) => {
+          API.call("API:searchPassword", this.id).then((res) => {
             usernameInput.value = res.userId;
             urlInput.value = res.url;
             idInput.value = res.id;
@@ -127,70 +171,113 @@ window.addEventListener("load", () => {
               passwordInput.value = decryptedPassword;
             });
           });
+
+
+          updateKeySelection(this);
+          currentIndex = index;
+        
         });
 
-        list_item.id = username.id;
+        list_item.id = Secret.id;
         list_item.innerHTML = `
         <img alt="" srcset="./favico.ico">
         <span>
-          ${username.url} 
+          ${Secret.url} 
           <span class="userID">
-            ${username.userId}
+            ${Secret.userId}
           </span>
         </span>
         `;
         list_container.appendChild(list_item);
+        list_items.push(list_item);
       });
 
-      selectionEvent();
+    selectionEvent(list_items);      
     });
+
+    
   });
 });
 
 // list selection
-function updateKeySelection(items, currentIndex, newIndex) {
-  items[currentIndex].classList.remove("selected");
-  currentIndex = newIndex;
-  items[currentIndex].classList.add("selected");
-  items[currentIndex].scrollIntoView({
+// function updateKeySelection(items, currentIndex, newIndex) {
+  function updateKeySelection(newItem){
+  // items[currentIndex].classList.remove("selected");
+  // currentIndex = newIndex;
+  // items[currentIndex].classList.add("selected");
+  // items[currentIndex].scrollIntoView({
+  //   behavior: "smooth",
+  //   block: "center",
+  // });
+
+  // return currentIndex;
+
+  currentSelectedItem.classList.remove("selected");
+  newItem.classList.add("selected");
+  newItem.scrollIntoView({
     behavior: "smooth",
     block: "center",
-  });
+  })
 
-  return currentIndex;
+  currentSelectedItem = newItem;
 }
 
-function selectionEvent() {
-  const listContainer = document.getElementById("search-modal");
+const listContainer = document.getElementById("search-modal");
+let currentKeydownListener = null;
 
-  const items = Array.from(document.querySelectorAll("#list-container li"));
+function selectionEvent(items) {
+
   const itemLength = items.length;
 
   if (itemLength === 0) return;
 
-  let currentIndex = 0;
+  // reset values after search
+  currentSelectedItem = null;
+  currentIndex = 0;
 
   // select first list
   items[currentIndex].classList.add("selected");
+  currentSelectedItem = items[0]
 
-  listContainer.addEventListener("keydown", (event) => {
+  // remove listener if it exists
+  if (currentKeydownListener) {
+    listContainer.removeEventListener("keydown", currentKeydownListener);
+  }
+
+  // create new listener
+  currentKeydownListener = (event) => {
+    
+    // rotate in both direction upside and downside 
+
     if (event.key === "ArrowDown") {
-      const current = currentIndex + 1;
-      currentIndex = updateKeySelection(
-        items,
-        currentIndex,
-        current % itemLength
-      );
+      event.preventDefault();
+      currentIndex = (currentIndex + 1) % itemLength;
+      updateKeySelection(items[currentIndex]);
+
     } else if (event.key === "ArrowUp") {
-      let current = currentIndex - 1;
+      event.preventDefault();
+      currentIndex = (currentIndex - 1 + itemLength) % itemLength;
+      updateKeySelection(items[currentIndex]);
 
-      if (current === -1) current = itemLength - 1;
-
-      currentIndex = updateKeySelection(
-        items,
-        currentIndex,
-        current % itemLength
-      );
     } else if (event.key === "Enter") items[currentIndex].click();
-  });
+  };
+
+  // add new listener
+  listContainer.addEventListener('keydown', currentKeydownListener);
 }
+
+
+
+
+// ipc listening 
+window_title_bar.on("window:focus", ()=>{
+  const titleBar = document.getElementById("title-bar");
+  titleBar.classList.remove("title-bar-blur");
+  titleBar.classList.add("title-bar-focus");
+})
+
+window_title_bar.on("window:blur", ()=>{
+  const titleBar = document.getElementById("title-bar");
+  titleBar.classList.remove("title-bar-focus");
+  titleBar.classList.add("title-bar-blur");  
+})

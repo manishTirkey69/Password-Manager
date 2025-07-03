@@ -18,7 +18,18 @@ svg {
   min-height: 34px;
   max-height: 34px;
   height: 34px;
-  background: linear-gradient(45deg, #000000, #11111e, #060606);
+}
+
+.title-bar-focus {
+  /* background: linear-gradient(45deg, #000000, #11111e, #060606); */
+
+  background: linear-gradient(45deg, #a10f2f, #000000, #ab1359);
+}
+
+.title-bar-blur {
+  /* background: linear-gradient(45deg, #000000, #11111e, #060606); */
+
+  background: linear-gradient(45deg, #a10f2fa2, #000000af, #ab135ab0);
 }
 
 .title-bar .spacer {
@@ -124,8 +135,11 @@ svg {
   border: 1px solid rgba(255, 255, 255, 0.115);
   border-radius: 2px;
   background: rgba(0, 0, 0, 0.099);
-  padding: 4px 8px;
+  padding: 6px 8px;
   color: rgba(255, 255, 255, 0.464);
+  border-radius: 6px;
+  letter-spacing: .6px;
+  font-weight: 600;
 }
 .search-modal-container input::placeholder {
   text-transform: capitalize;
@@ -172,6 +186,7 @@ svg {
   align-items: center;
   gap: 16px;
   cursor: pointer;
+  border-radius: 4px;
 }
 .search-modal-container li .userID {
   opacity: 0.5;
@@ -250,11 +265,19 @@ svg {
 }
 
 @media (prefers-color-scheme: light) {
-  .title-bar {
+  .title-bar-focus {
     background: #ff416c;
     background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
     background: linear-gradient(to right, #ff4b2b, #ff416c);
   }
+
+  .title-bar-blur {
+    background: #ff416d96;
+    background: -webkit-linear-gradient(to right, #ff4b2ba6, #ff416d98);
+    background: linear-gradient(to right, #ff4b2b98, #ff416d9d);
+  }
+
+  
 
   .title-bar
     .title-right
@@ -292,6 +315,7 @@ svg {
   .search-modal-container input {
     color: #5b5b5bcc;
     background-color: #ff416c4a;
+    border: 1px solid #ff416cb0;
 
     caret-color: black;
   }
@@ -301,7 +325,11 @@ svg {
   }
 
   .search-modal-container li:hover {
-    background: -webkit-linear-gradient(to right, #ff4b2b8c, #ff416d8e);
-    background: linear-gradient(to right, #ff4b2b8c, #ff416d8e);
+    background: -webkit-linear-gradient(to right, #ff4b2b3d, #ff416d42);
+    background: linear-gradient(to right, #ff4b2b3d, #ff416d42);
+  }
+
+  .search-modal-container li.selected {
+    background: linear-gradient(to right, #ff4b2b7d, #ff416dbd);
   }
 }

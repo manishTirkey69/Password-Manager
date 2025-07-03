@@ -7,7 +7,6 @@ const {
   dialog,
 } = require("electron");
 const path = require("node:path");
-
 const { DB, Model } = require("./src/library/mongoose");
 const { Encrypt, Decrypt } = require("./src/library/Enc_Dec");
 const { extractDomain, fetchFavicon } = require("./src/library/validation");
@@ -49,6 +48,8 @@ const createWindow = () => {
     },
   });
 
+  mainwindow.setContentProtection(true);
+
   // and load the index.html of the app.
   mainwindow.loadFile(path.join(__dirname, "public/main.html"));
 
@@ -73,6 +74,15 @@ const createWindow = () => {
     closeApp();
   });
 
+  mainwindow.on("blur", ()=>{
+    mainwindow.webContents.send("window:blur");
+  })
+  
+  mainwindow.on("focus", ()=>{
+    mainwindow.webContents.send("window:focus");
+  })
+  
+
   ipcMain.handle("win:title", () => {
     return mainwindow.title;
   });
@@ -82,7 +92,7 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  // mainwindow.webContents.openDevTools();
+  // mainwindow.webContents.openDevTools({mode: "undocked"});
 
   //   mainwindow.webContents.on('did-finish-load', () => {
   //     mainwindow.webContents.insertCSS(`
@@ -166,6 +176,8 @@ ipcMain.handle("win:maxi_restore", () => {
 ipcMain.handle("win:isMaximized", () => {
   return mainwindow.isMaximized();
 });
+
+
 
 ipcMain.on("win:close", () => {
   closeApp();
