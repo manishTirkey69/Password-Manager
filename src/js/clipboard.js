@@ -1,4 +1,5 @@
 let UpdateForm = false;
+let Current_Payload = null;
 
 window.addEventListener("load", () => {
   const form = document.getElementById("clipboard-form");
@@ -62,8 +63,7 @@ window.addEventListener("load", () => {
   });
 });
 
-// update password
-
+// Look up any Input changes in Right Panel
 window.addEventListener("load", () => {
   const urlInput = document.getElementById("c-urlInput");
   const usernameInput = document.getElementById("c-usernameInput");
@@ -71,17 +71,35 @@ window.addEventListener("load", () => {
   const clipboard_btn = document.getElementById("clipboard");
 
   urlInput.addEventListener("input", () => {
-    clipboard_btn.innerText = "Update";
-    UpdateForm = true;
+    if (Current_Payload.Url !== urlInput.value)
+      ActiveUpdateBtn(clipboard_btn);
+    else ActiveClipboard(clipboard_btn);
   });
 
   usernameInput.addEventListener("input", () => {
-    clipboard_btn.innerText = "Update";
-    UpdateForm = true;
+    if (Current_Payload.userId !== usernameInput.value)
+      ActiveUpdateBtn(clipboard_btn);
+    else ActiveClipboard(clipboard_btn);
   });
 
   passwordInput.addEventListener("input", () => {
-    clipboard_btn.innerText = "Update";
-    UpdateForm = true;
+    if (Current_Payload.Password !== passwordInput.value)
+      ActiveUpdateBtn(clipboard_btn);
+    else ActiveClipboard(clipboard_btn);
   });
 });
+
+// make current selected password to Global for all
+API.on("API:CurrentSelectedPassword", (payloads) => {
+  Current_Payload = payloads;
+});
+
+function ActiveClipboard(clipboard_btn) {
+  clipboard_btn.innerText = "Clipboard";
+  UpdateForm = false;
+}
+
+function ActiveUpdateBtn(clipboard_btn) {
+  clipboard_btn.innerText = "Update";
+  UpdateForm = true;
+}

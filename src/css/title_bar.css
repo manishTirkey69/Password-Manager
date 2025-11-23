@@ -83,8 +83,9 @@ svg {
   border: 1px solid rgba(255, 255, 255, 0.117);
 }
 
-.title-center .app_name {
+.title-center #app_name {
   white-space: nowrap;
+  font-weight: 800;
 }
 
 .search-modal-wrapper {
@@ -331,5 +332,9 @@ svg {
 
   .search-modal-container li.selected {
     background: linear-gradient(to right, #ff4b2b7d, #ff416dbd);
+  }
+
+  .title-bar .title-center #app_name{
+    color: #0808086b;
   }
 }

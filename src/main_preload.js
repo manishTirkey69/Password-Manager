@@ -16,6 +16,9 @@ contextBridge.exposeInMainWorld("window_things", {
 
 contextBridge.exposeInMainWorld("API", {
   call: (channel, ...args) => ipcRenderer.invoke(channel, ...args),
+  send: (channel, ...args) => ipcRenderer.send(channel, ...args),
+  on: (channel, callback) =>
+    ipcRenderer.on(channel, (event, ...args) => callback(...args)),
 });
 
 // window title bar

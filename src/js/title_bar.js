@@ -1,8 +1,9 @@
 // global variable
 let currentSelectedItem = null;
 let currentIndex = 0;
+let currentPassword = null;
 
-
+// windows <Minimize, Maximize/Restore, Close> Control Center
 window.addEventListener("load", () => {
   const minimize = document.getElementById("win-minimize");
   const restore = document.getElementById("win-restore");
@@ -76,7 +77,7 @@ window.addEventListener("load", () => {
   });
 });
 
-// window things
+// Loads window <Icon, Title>
 window_things.on("win:load", () => {
   // settings app title
   window_things.invoke("win:title").then((app_title_name) => {
@@ -92,13 +93,15 @@ window_things.on("win:load", () => {
 });
 
 
-// local shortcut keys 
+// -------------- local shortcut keys 
 
+// prevent to open menu by right click
 window.addEventListener('contextmenu', (event) => {
   event.preventDefault(); // Disables right-click menu
   event.stopPropagation();
 });
 
+// open search panel with <CTRL + P>
 window.addEventListener("keydown", (event) => {
 
   if (event.ctrlKey && event.key.toLowerCase() === "p") {
@@ -114,7 +117,7 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-
+// close the search panel by ESC
 window.addEventListener("keydown", (event) => {
 
   if (event.key.toLowerCase() === "escape" ) {
@@ -140,6 +143,7 @@ window.addEventListener("load", () => {
   const passwordInput = document.getElementById("c-passwordInput");
 
   searchInput.addEventListener("input", (event) => {
+    event.stopPropagation();
     list_container.innerHTML = ``;
 
     let list_items = []
@@ -163,15 +167,24 @@ window.addEventListener("load", () => {
           // set the value into username/password input
 
           API.call("API:searchPassword", this.id).then((res) => {
-            usernameInput.value = res.userId;
-            urlInput.value = res.url;
-            idInput.value = res.id;
+            const userId = res.userId;
+            const Url = res.url;
+            const Id = res.id;
+
+            usernameInput.value = userId;
+            urlInput.value = Url;
+            idInput.value = Id;
 
             API.call("API:decrypt", res.password).then((decryptedPassword) => {
+              payloads = {
+                userId: userId,
+                Url: Url,
+                Password: decryptedPassword,
+              };
               passwordInput.value = decryptedPassword;
+              API.send("API:PasswordSelectionSignal", payloads);
             });
           });
-
 
           updateKeySelection(this);
           currentIndex = index;
@@ -194,7 +207,6 @@ window.addEventListener("load", () => {
 
     selectionEvent(list_items);      
     });
-
     
   });
 });
@@ -225,6 +237,7 @@ window.addEventListener("load", () => {
 const listContainer = document.getElementById("search-modal");
 let currentKeydownListener = null;
 
+// item List selection through keyboard <UP, Down, Enter>
 function selectionEvent(items) {
 
   const itemLength = items.length;
@@ -265,8 +278,6 @@ function selectionEvent(items) {
   // add new listener
   listContainer.addEventListener('keydown', currentKeydownListener);
 }
-
-
 
 
 // ipc listening 

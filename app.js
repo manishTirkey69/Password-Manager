@@ -11,17 +11,19 @@ const { DB, Model } = require("./src/library/mongoose");
 const { Encrypt, Decrypt } = require("./src/library/Enc_Dec");
 const { extractDomain, fetchFavicon } = require("./src/library/validation");
 const { searchUserId, searchPassword } = require("./src/library/findDataDB");
+const { GeneratePassword } = require("./src/library/password_generate")
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+const icon_path = "./public/favico.ico";
+
 let mainwindow = null;
 
 const createWindow = () => {
   // Create the browser window.
-  const icon_path = "./public/favico.ico";
   mainwindow = new BrowserWindow({
     minHeight: 500,
     minWidth: 600,
@@ -92,7 +94,7 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  // mainwindow.webContents.openDevTools({mode: "undocked"});
+  mainwindow.webContents.openDevTools({mode: "undocked"});
 
   //   mainwindow.webContents.on('did-finish-load', () => {
   //     mainwindow.webContents.insertCSS(`
@@ -176,8 +178,6 @@ ipcMain.handle("win:maxi_restore", () => {
 ipcMain.handle("win:isMaximized", () => {
   return mainwindow.isMaximized();
 });
-
-
 
 ipcMain.on("win:close", () => {
   closeApp();
@@ -269,18 +269,6 @@ ipcMain.handle("API:searchPassword", async (event, Id) => {
   return searchPassword(Id);
 });
 
-async function msgDialog() {
-  return await dialog.showMessageBox(mainwindow, {
-    message: "this is simple msg",
-    type: "none",
-    defaultId: 0,
-    title: "Update Password",
-    detail: "Update the current username",
-    cancelId: 0,
-    buttons: ["cancel", "Update the password"],
-  });
-}
-
 ipcMain.handle(
   "API:updatePassword",
   async (event, id, url, userId, password) => {
@@ -300,3 +288,34 @@ ipcMain.handle(
     return false;
   }
 );
+
+ipcMain.handle("API:generatePassword", ()=>{
+  return GeneratePassword();
+})
+
+ipcMain.handle("API:PasswordConfirmation", ()=>{
+  return msgDialog()
+})
+
+ipcMain.on("API:PasswordSelectionSignal", (event, payloads) => {
+  mainwindow.webContents.send("API:CurrentSelectedPassword", payloads);
+});
+
+
+
+// functions
+async function msgDialog() {
+  const result = await dialog.showMessageBox(mainwindow, {
+    type: "info",
+    icon: icon_path,
+    title: "Confirm",
+    message: "Do You want to Generate ?",
+    detail: "Generate Password",
+    buttons: ["cancel", "ok"],
+    defaultId: 0,
+    cancelId: 0,
+    noLink: true
+  });
+
+  return result
+}
