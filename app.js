@@ -11,7 +11,7 @@ const { DB, Model } = require("./src/library/mongoose");
 const { Encrypt, Decrypt } = require("./src/library/Enc_Dec");
 const { extractDomain, fetchFavicon } = require("./src/library/validation");
 const { searchUserId, searchPassword } = require("./src/library/findDataDB");
-const { GeneratePassword } = require("./src/library/password_generate")
+const { GeneratePassword } = require("./src/library/password_generate");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -76,14 +76,13 @@ const createWindow = () => {
     closeApp();
   });
 
-  mainwindow.on("blur", ()=>{
+  mainwindow.on("blur", () => {
     mainwindow.webContents.send("window:blur");
-  })
-  
-  mainwindow.on("focus", ()=>{
+  });
+
+  mainwindow.on("focus", () => {
     mainwindow.webContents.send("window:focus");
-  })
-  
+  });
 
   ipcMain.handle("win:title", () => {
     return mainwindow.title;
@@ -94,7 +93,7 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  mainwindow.webContents.openDevTools({mode: "undocked"});
+  mainwindow.webContents.openDevTools({ mode: "undocked" });
 
   //   mainwindow.webContents.on('did-finish-load', () => {
   //     mainwindow.webContents.insertCSS(`
@@ -223,25 +222,8 @@ ipcMain.handle(
         userId: username,
       });
 
-      if (isExists) {
-        const result = await msgDialog();
-
-        if (result.response) {
-          isExists.password = encryptedPassword;
-          const saved = await isExists.save();
-
-          if (saved) {
-            console.log("password is updated");
-            return { success: true };
-          } else {
-            console.log("failed to update");
-          }
-        }
-
-        console.log("canceled to update the password");
-        return { success: false };
-      } else {
-        console.log("new user id ");
+      if (isExists) return { success: false };
+      else {
         const newPassword = new Model({
           url: url,
           userId: username,
@@ -250,12 +232,10 @@ ipcMain.handle(
 
         const saved = await newPassword.save();
         if (saved) {
-          console.log("password is saved");
           return { success: true };
         }
       }
     } catch (error) {
-      console.log(error);
       return { success: false, message: error.message };
     }
   }
@@ -289,19 +269,17 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle("API:generatePassword", ()=>{
+ipcMain.handle("API:generatePassword", () => {
   return GeneratePassword();
-})
+});
 
-ipcMain.handle("API:PasswordConfirmation", ()=>{
-  return msgDialog()
-})
+ipcMain.handle("API:PasswordConfirmation", () => {
+  return msgDialog();
+});
 
 ipcMain.on("API:PasswordSelectionSignal", (event, payloads) => {
   mainwindow.webContents.send("API:CurrentSelectedPassword", payloads);
 });
-
-
 
 // functions
 async function msgDialog() {
@@ -314,8 +292,8 @@ async function msgDialog() {
     buttons: ["cancel", "ok"],
     defaultId: 0,
     cancelId: 0,
-    noLink: true
+    noLink: true,
   });
 
-  return result
+  return result;
 }

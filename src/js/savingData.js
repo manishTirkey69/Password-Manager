@@ -15,7 +15,6 @@ save_form.addEventListener("submit", (event) => {
   API.call("API:encrypt", password).then((encryptedPassword) => {
     API.call("API:saveNewPassword", url, username, encryptedPassword)
       .then((res) => {
-        console.log(res);
 
         if (res.success) {
           setTimeout(() => {
@@ -38,10 +37,27 @@ save_form.addEventListener("submit", (event) => {
           usernameInput.value = "";
           passwordInput.value = "";
         }
+        else{
+          setTimeout(() => {
+            save_btn.style.border = "1px solid #f50029";
+          }, 50);
+
+          setTimeout(() => {
+            save_btn.style.border = "1px solid #060606";
+          }, 500);
+
+          setTimeout(() => {
+            save_btn.style.border = "1px solid #f50029";
+          }, 600);
+
+          setTimeout(() => {
+            save_btn.style.border = "1px solid #060606";
+          }, 700);
+        }
       })
 
       .catch((error) => {
-        console.log(error);
+        
         setTimeout(() => {
           save_btn.style.border = "1px solid #f50029";
         }, 50);
