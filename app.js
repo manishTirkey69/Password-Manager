@@ -93,7 +93,7 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  mainwindow.webContents.openDevTools({ mode: "undocked" });
+  // mainwindow.webContents.openDevTools({ mode: "undocked" });
 
   //   mainwindow.webContents.on('did-finish-load', () => {
   //     mainwindow.webContents.insertCSS(`
