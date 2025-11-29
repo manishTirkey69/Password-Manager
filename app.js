@@ -17,6 +17,8 @@ const { GeneratePassword } = require("./src/library/password_generate");
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
+const isProd = process.mainModule?.filename.includes("app.asar");
+
 
 const icon_path = "./public/favico.ico";
 
@@ -45,7 +47,7 @@ const createWindow = () => {
       enableRemoteModule: false,
 
       // make false when app is ready to build
-      devTools: true,
+      devTools: isProd? false: true,
       preload: path.join(__dirname, "./src/main_preload.js"),
     },
   });
@@ -93,7 +95,8 @@ const createWindow = () => {
   });
 
   // Open the DevTools.
-  // mainwindow.webContents.openDevTools({ mode: "undocked" });
+
+  if (!isProd) mainwindow.webContents.openDevTools({ mode: "undocked" });
 
   //   mainwindow.webContents.on('did-finish-load', () => {
   //     mainwindow.webContents.insertCSS(`
