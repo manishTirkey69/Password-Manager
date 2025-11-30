@@ -12,10 +12,29 @@ save_form.addEventListener("submit", (event) => {
   const username = event.target.username.value.trim();
   const password = event.target.password.value.trim();
 
+  if (url.length === 0 || url === "" || url === null)
+    if (username.length === 0 || username === "" || username === null) {
+      setTimeout(() => {
+        save_btn.style.border = "1px solid #f50029";
+      }, 50);
+
+      setTimeout(() => {
+        save_btn.style.border = "1px solid #060606";
+      }, 500);
+
+      setTimeout(() => {
+        save_btn.style.border = "1px solid #f50029";
+      }, 600);
+
+      setTimeout(() => {
+        save_btn.style.border = "1px solid #060606";
+      }, 700);
+      return;
+    }
+
   API.call("API:encrypt", password).then((encryptedPassword) => {
     API.call("API:saveNewPassword", url, username, encryptedPassword)
       .then((res) => {
-
         if (res.success) {
           setTimeout(() => {
             save_btn.style.border = "1px solid #59ff0b";
@@ -36,8 +55,7 @@ save_form.addEventListener("submit", (event) => {
           urlInput.value = "";
           usernameInput.value = "";
           passwordInput.value = "";
-        }
-        else{
+        } else {
           setTimeout(() => {
             save_btn.style.border = "1px solid #f50029";
           }, 50);
@@ -57,7 +75,6 @@ save_form.addEventListener("submit", (event) => {
       })
 
       .catch((error) => {
-        
         setTimeout(() => {
           save_btn.style.border = "1px solid #f50029";
         }, 50);
