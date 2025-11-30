@@ -77,7 +77,7 @@
     },
     "mac": {
       "target": "dmg",
-      "icon": "build/icon.icns",
+      "icon": "public/favico.icns",
       "category": "public.app-category.utilities"
     },
     "linux": {
