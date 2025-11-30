@@ -39,7 +39,9 @@
       align-items: center;
       justify-content: center;
       margin-right: 20px;
-      gap: 10px;
+      gap: 6px;
+      height: 100%;
+      
 }
 
     .toggle-container #mode {
@@ -102,13 +104,13 @@
 
     .toggle-label.off {
       right: 3px;
-      color: white;
+      color: #737373;
       opacity: 1;
     }
 
     .toggle-label.on {
       left: 3px;
-      color: #666;
+      color: white;
       opacity: 0;
     }
 
