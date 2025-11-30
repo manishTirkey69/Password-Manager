@@ -27,11 +27,12 @@
       type="text/css"
       href="../src/css//Dark_theme_style.css"
     />
-    <link rel="stylesheet" type="text/css" href="../src/css//dark_mode.css" />
-    <link rel="stylesheet" type="text/css" href="../src/css//main.css" />
-    <link rel="stylesheet" type="text/css" href="../src/css//window.css" />
-    <link rel="stylesheet" type="text/css" href="../src/css//title_bar.css" />
-    <link rel="stylesheet" type="text/css" href="../src/css//container.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/dark_mode.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/toggle.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/window.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/title_bar.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/container.css" />
 
     <link
       rel="stylesheet"
@@ -102,6 +103,17 @@
       </div>
 
       <div class="spacer"></div>
+
+      <div class="toggle-container">
+        <span id="mode">Protection</span>
+          <div class="toggle-wrapper active" id="toggle2">
+            <div class="toggle-switch active">
+              <span class="toggle-label off">OFF</span>
+              <span class="toggle-label on">ON</span>
+              <div class="toggle-handle"></div>
+            </div>
+          </div>
+        </div>
 
       <div class="title-right">
         <div class="window-cmini-maxi">
@@ -263,7 +275,12 @@
             </div>
 
             <div class="url-wrapper">
-              <input id="save-url-in" type="text" name="url" placeholder="Url" />
+              <input
+                id="save-url-in"
+                type="text"
+                name="url"
+                placeholder="Url"
+              />
             </div>
 
             <div class="username-wrapper">
@@ -363,7 +380,7 @@
 
     <!-- real actions -->
     <script defer src="../src/js/dark_mode.js"></script>
-
+    <script defer src="../src/js/toggle.js"></script>
     <script defer src="../src/js/title_bar.js"></script>
     <script defer src="../src/js/container.js"></script>
     <script defer src="../src/js/clipboard.js"></script>

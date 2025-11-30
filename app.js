@@ -284,6 +284,15 @@ ipcMain.on("API:PasswordSelectionSignal", (event, payloads) => {
   mainwindow.webContents.send("API:CurrentSelectedPassword", payloads);
 });
 
+
+ipcMain.on("API:Protection:ON", (event)=>{
+  mainwindow.setContentProtection(true);
+})
+
+ipcMain.on("API:Protection:OFF", (event) => {
+  mainwindow.setContentProtection(false);
+});
+
 // functions
 async function msgDialog() {
   const result = await dialog.showMessageBox(mainwindow, {
