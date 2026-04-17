@@ -1,7 +1,7 @@
 ## 💪 [ElectronJs](https://www.electronjs.org/) Based Password Manager works with localhost MongoDB or Docker mongoDB.
 
-![](https://github.com/ManishTirkey/Password-Manager/blob/main/Screenshots/1.png)
-![](https://github.com/ManishTirkey/Password-Manager/blob/main/Screenshots/2.png)
+![](./Screenshots/1.png)
+![](./Screenshots/2.png)
 
 ## :seedling: Getting Started
 #### Download [mongoDB](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.0.6-signed.msi) locally.
