@@ -39,10 +39,10 @@ npm start
 
 
 ## :motorcycle: Other Repositories
-- [Youtube Video Download App](https://github.com/ManishTirkey/Download_youtube_Videos)
-  - Both Audio and video separately.
-- [Control Volume with hand Gesture](https://github.com/ManishTirkey/Volume_control_opencv)
-- [Screenshot Application](https://github.com/ManishTirkey/ScreenShot)
+- [Screenshot Application](https://github.com/manishTirkey69/Screenshot_electron)
   - ElectonJS and python based Screenshot Application.
   - window sticks on top of window application.
   - Take screenshots of the particular area.
+- [QT based Screenshot Application](https://github.com/manishTirkey69/Screenshot)
+- [Cpp-Web-compiler](https://github.com/manishTirkey69/Cpp-Web-Compiler)
+- [Text2SQl MultiAgent for PostgreSQL](https://github.com/manishTirkey69/Text2SQL-MultiAgent)
